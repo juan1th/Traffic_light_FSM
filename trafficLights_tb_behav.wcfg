@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="trafficLights_tb_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="trafficLights_tb" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="16.653 ns"></ZoomStartTime>
+      <ZoomEndTime time="122.670 ns"></ZoomEndTime>
+      <Cursor1Time time="105.000 ns"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="150"></NameColumnWidth>
+      <ValueColumnWidth column_width="65"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="13" />
+   <wvobject fp_name="/trafficLights_tb/i_expired" type="logic">
+      <obj_property name="ElementShortName">i_expired</obj_property>
+      <obj_property name="ObjectShortName">i_expired</obj_property>
+      <obj_property name="CustomSignalColor">#E0FFFF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/trafficLights_tb/i_fsmstep" type="logic">
+      <obj_property name="ElementShortName">i_fsmstep</obj_property>
+      <obj_property name="ObjectShortName">i_fsmstep</obj_property>
+      <obj_property name="CustomSignalColor">#E0FFFF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/trafficLights_tb/i_clk" type="logic">
+      <obj_property name="ElementShortName">i_clk</obj_property>
+      <obj_property name="ObjectShortName">i_clk</obj_property>
+      <obj_property name="CustomSignalColor">#E0FFFF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/trafficLights_tb/i_reset" type="logic">
+      <obj_property name="ElementShortName">i_reset</obj_property>
+      <obj_property name="ObjectShortName">i_reset</obj_property>
+      <obj_property name="CustomSignalColor">#E0FFFF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/trafficLights_tb/o_stop" type="logic">
+      <obj_property name="ElementShortName">o_stop</obj_property>
+      <obj_property name="ObjectShortName">o_stop</obj_property>
+      <obj_property name="CustomSignalColor">#FF0000</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/trafficLights_tb/o_walk" type="logic">
+      <obj_property name="ElementShortName">o_walk</obj_property>
+      <obj_property name="ObjectShortName">o_walk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/trafficLights_tb/i_button" type="logic">
+      <obj_property name="ElementShortName">i_button</obj_property>
+      <obj_property name="ObjectShortName">i_button</obj_property>
+      <obj_property name="CustomSignalColor">#E0FFFF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/trafficLights_tb/o_red" type="logic">
+      <obj_property name="ElementShortName">o_red</obj_property>
+      <obj_property name="ObjectShortName">o_red</obj_property>
+      <obj_property name="CustomSignalColor">#FF0000</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/trafficLights_tb/o_yellow" type="logic">
+      <obj_property name="ElementShortName">o_yellow</obj_property>
+      <obj_property name="ObjectShortName">o_yellow</obj_property>
+      <obj_property name="CustomSignalColor">#FFFF00</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/trafficLights_tb/o_green" type="logic">
+      <obj_property name="ElementShortName">o_green</obj_property>
+      <obj_property name="ObjectShortName">o_green</obj_property>
+   </wvobject>
+   <wvobject fp_name="/trafficLights_tb/o_stime" type="array">
+      <obj_property name="ElementShortName">o_stime[7:0]</obj_property>
+      <obj_property name="ObjectShortName">o_stime[7:0]</obj_property>
+      <obj_property name="CustomSignalColor">#E0FFFF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/trafficLights_tb/o_set" type="logic">
+      <obj_property name="ElementShortName">o_set</obj_property>
+      <obj_property name="ObjectShortName">o_set</obj_property>
+      <obj_property name="CustomSignalColor">#E0FFFF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/trafficLights_tb/dut/state" type="array">
+      <obj_property name="ElementShortName">state[1:0]</obj_property>
+      <obj_property name="ObjectShortName">state[1:0]</obj_property>
+   </wvobject>
+</wave_config>

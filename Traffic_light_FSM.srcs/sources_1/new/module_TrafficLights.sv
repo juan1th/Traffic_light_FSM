@@ -21,105 +21,145 @@
 
 
 module module_TrafficLights(
-    input i_button,
-    input i_expired,
-    input i_fsmstep,
-    input i_clk,
-    input i_reset,
+    input i_button,             // Pedestrian button
+    input i_expired,            // Timer/counter expired output
+    input i_fsmstep,            // External FSM step signal (timing strobe)
+    input i_clk,                // System clock
+    input i_reset,              // Asynchronous reset
 
-    output o_stop,
-    output o_walk,
-    output o_red,
-    output o_yellow,
-    output o_green,
-    output [7:0] o_stime,
-    output o_set
+    output logic o_stop,        // Signal to stop cars
+    output logic o_walk,        // Signal for pedestrian walk
+    output logic o_red,         // Red light output
+    output logic o_yellow,      // Yellow light output
+    output logic o_green,       // Green light output
+    output logic [7:0] o_stime, // State-time for external monitoring
+    output logic o_set          // Signal to (re)set timer/counter
     );
         
-    typedef enum logic [2:0] {
-        CARSgo, 
-        STOPcars, 
-        PEOPLEgo, 
-        STOPppl
+    typedef enum logic [1:0] {
+        CARSgo    = 2'b00,
+        STOPcars  = 2'b01,
+        PEOPLEgo  = 2'b10,
+        STOPppl   = 2'b11
     } state_t;
-    
-    state_t state, next_state;                                                  // 1. Define the states of the pulse generator, IDLE, LOW or HIGH.
-    
-    pulseCounter pulseDUT(
+
+    state_t state, next_state;
+
+    // Example interface to modular timer/counter
+    logic timer_done;
+    logic timer_enable;
+    logic [11:0] timer_value;
+    logic [11:0] timer_target;
+    logic i_init_stopcars;
+
+
+    timeCounter timer_inst (
         .clk(i_clk),
-        .reset(i_reset | (state==IDLE && next_state==IDLE)),
-        .inc_pulse(inc_pulse),
-        .count(pulse_count)                                                     // 2. Declare the internal variables and call the pulse counter.
+        .reset(i_reset | o_set),
+        .enable(timer_enable),
+        .target(timer_target),
+        .value(timer_value),
+        .done(timer_done)
     );
-    
-    always_comb 
-    begin
+
+    always_comb begin
+        // Default outputs
+        o_stop    = 0;
+        o_walk    = 0;
+        o_red     = 0;
+        o_yellow  = 0;
+        o_green   = 0;
+        o_stime   = 0;
+        o_set     = 0;                              // Set high to reset timer
+
+        timer_enable = 0;
+        timer_target = 12'd0;
         next_state = state;
-//        timer_enable = 1'b0;
-//        inc_pulse = 1'b0;
-//        timer_target = 12'd0;                                                   // 6. Initialize intermediate variable values.
-    
+
         case (state)
-            CARSgo:
-            begin
-                o_stop = 1;
-                o_walk = 0;
-                o_red = 0;
-                o_yellow = 0;
-                o_green = 1;
-            
-//                if (trigger_rise)
-//                    next_state = LOW;
-//            end                                                                 // 7. In the beginning where the trigger rises and PG goes from IDLE to LOW.
-            
-            STOPcars: 
-            begin
-                o_stop = 1;
-                o_walk = 0;
-                o_red = 1;
-                o_yellow = 0;
-                o_green = 0;                                        // 8. After a LOW, the pulse goes to high always. 
-            end 
-            
-            PEOPLEgo: 
-            begin
-                o_stop = 0;
-                o_walk = 1;
-                o_red = 1;
-                o_yellow = 0;
-                o_green = 0;   
+            CARSgo: begin
+                o_stop    = 1;
+                o_walk    = 0;
+                o_red     = 0;
+                o_yellow  = 0;
+                o_green   = 1;
+
+                if (i_fsmstep) begin
+                    if (i_button) begin
+                        next_state = STOPcars;
+                        o_set = 1;
+                        timer_enable = 1;
+//                        timer_value = 0;
+                        timer_target = 120;
+                    end
+                end
             end
-            
-            STOPppl: 
-            begin
-                o_stop = 1;
-                o_walk = 0;
-                o_red = 1;
-                o_yellow = 1;
-                o_green = 0;   
+
+            STOPcars: begin
+                o_stop    = 1;
+                o_walk    = 0;
+                o_red     = 1;
+                o_yellow  = 0;
+                o_green   = 0;
+
+                if (i_fsmstep) begin
+                    if (timer_done) begin
+                        next_state = PEOPLEgo;
+                        o_set = 1;
+                        timer_enable = 1;
+                        timer_target = 60;
+                    end else begin
+                        timer_enable = 1;           // Keep counting until done
+                    end
+                end
             end
-            
-            default:
-            begin
+
+            PEOPLEgo: begin
+                o_stop    = 0;
+                o_walk    = 1;
+                o_red     = 1;
+                o_yellow  = 0;
+                o_green   = 0;
+
+                if (i_fsmstep) begin
+                    if (timer_done) begin
+                        next_state = STOPppl;
+                        o_set = 1;
+                        timer_enable = 1;
+                        timer_target = 60;
+                    end else begin
+                        timer_enable = 1;
+                    end
+                end
+            end
+
+            STOPppl: begin
+                o_stop    = 1;
+                o_walk    = 0;
+                o_red     = 1;
+                o_yellow  = 1;
+                o_green   = 0;
+
+                if (i_fsmstep) begin
+                    if (timer_done) begin
+                        next_state = CARSgo;
+                    end else begin
+                        timer_enable = 1;
+                    end
+                end
+            end
+
+            default: begin
                 next_state = CARSgo;
-            end                                                                 // 10. Just the default state in case things go sideways.
+            end
         endcase
     end
 
-    always_ff @(posedge i_clk)
-    begin
+    always_ff @(posedge i_clk) begin
         if (i_reset)
             state <= CARSgo;
         else
-            state <= next_state;                                                // 11. Makes the switch case take 1 step, i.e. re-evaluate the switch case.
+            state <= next_state;
     end
-    
-    always_comb 
-    begin
-      case (state)
-        HIGH: o_pulse = 1'b1;
-        default: o_pulse = 1'b0;                                                // 12. Is the result of the whole operation, the low or high pulses are emitted due ot this block.
-      endcase
-    end
-    
+
 endmodule
