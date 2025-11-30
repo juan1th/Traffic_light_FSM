@@ -23,8 +23,7 @@
 module trafficLights_tb();
     
     logic i_button;
-    logic i_expired;
-    logic i_fsmstep;
+    logic [11:0] i_fsmstep;
     logic i_clk;
     logic i_reset;
 
@@ -33,13 +32,9 @@ module trafficLights_tb();
     logic o_red;
     logic o_yellow;
     logic o_green;
-    
-    logic [7:0] o_stime;
-    logic o_set;
 
-    module_TrafficLights dut (
+    top_level dut (
         .i_button(i_button),
-        .i_expired(i_expired),
         .i_fsmstep(i_fsmstep),
         .i_clk(i_clk),
         .i_reset(i_reset),
@@ -48,47 +43,52 @@ module trafficLights_tb();
         .o_walk(o_walk),
         .o_red(o_red),
         .o_yellow(o_yellow),
-        .o_green(o_green),
-        
-        .o_stime(o_stime),
-        .o_set(o_set)
+        .o_green(o_green)
     );
-
+    
     initial i_clk = 0;
     always #5 i_clk = ~i_clk;
 
         initial begin
         // Start values should be in STOPcars mode (PLEASE TRY TO IMPLEMENT IT, currently it starts in CARSGO mode)
         i_button   = 0;
-        i_expired  = 0;
-        i_fsmstep  = 0;
-        i_reset    = 0;
-
-        @(posedge i_clk);                   // 1. This is the same thing as #10ns; 
+        i_fsmstep  = 100;                 
         i_reset    = 1;
 
-        @(posedge i_clk);
+        #10ns; 
         i_reset = 0;
+        
+        #20ns; 
         
 
         // FSM sits in CARSgo: step FSM 3 times, no pedestrian request
-        repeat (3) begin
-            @(posedge i_clk);
-            i_fsmstep = 1;
-            @(posedge i_clk);
-            i_fsmstep = 0;
-        end
+        //repeat (3) begin
+         //   @(posedge i_clk);
+         //   i_fsmstep = 1;
+          //  @(posedge i_clk);
+          //  i_fsmstep = 0;
+        //end
 
         // Pedestrian presses button at this point.
         i_button = 1;
         @(posedge i_clk);
-        i_fsmstep = 1;
+        //i_fsmstep = 1;
         @(posedge i_clk);
-        i_fsmstep = 0;
+        //i_fsmstep = 0;
         i_button = 0;
 
         @(posedge i_clk);
-        $display("");
+        #40000ns;
+        i_button = 1;
+        #10ns; 
+        i_button = 0;
+        
+        #160000ns;
+        i_button = 1;
+        #10ns; 
+        i_button = 0;
+        
+        #40000ns;
         $finish;
     end
 

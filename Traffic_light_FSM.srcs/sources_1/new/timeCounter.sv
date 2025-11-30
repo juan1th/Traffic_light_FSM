@@ -24,19 +24,30 @@ module timeCounter(
     input clk,
     input reset,
     input enable,
-    input [11:0] target,
-    output logic [11:0] value,
-    output logic done
+    input [7:0] target,
+    output logic [7:0] value,
+    output logic done,
+    input logic pulse
     );
 
     always_ff @(posedge clk) begin
         if (reset)
-            value <= 12'd0;
-        else if (enable && value < target) 
+            value <= 7'd0;
+        else if ((enable && (value < target)) && pulse) begin
             value <= value + 1;
+            done <= 0;
+            end
+        else if (value >= target) begin
+            done <= 1;
+            value <= 0;
+            end
+        else begin
+            done <= 0;
+        end
+        
     end
 
-    always_comb begin
-        done = (value >= target);
-    end
+    //always_comb begin
+    //    done = (value >= target);
+    //end
 endmodule

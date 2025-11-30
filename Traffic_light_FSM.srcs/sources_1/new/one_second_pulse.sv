@@ -3,7 +3,7 @@
 module one_second_pulse (
     input  logic clk,       // 100 MHz clock
     input  logic reset,
-    logic [11:0] i_fsmstep,
+    input logic [11:0] i_fsmstep,
     output logic pulse       // High for 1 clock cycle every second
 );
 
