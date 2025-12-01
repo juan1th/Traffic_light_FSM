@@ -1,8 +1,0 @@
-0.7
-2020.2
-May 22 2025
-00:13:55
-D:/2025.1/Projects/Digital circuit design/Traffic_light_FSM/Traffic_light_FSM.sim/sim_1/behav/xsim/glbl.v,1741209010,verilog,,,,glbl,,uvm,,,,,,
-D:/2025.1/Projects/Digital circuit design/Traffic_light_FSM/Traffic_light_FSM.srcs/sources_1/new/module_TrafficLights.sv,1763933675,systemVerilog,,D:/2025.1/Projects/Digital circuit design/Traffic_light_FSM/Traffic_light_FSM.srcs/sources_1/new/timeCounter.sv,,module_TrafficLights,,uvm,../../../../../../../Vivado/data/rsb/busdef,,,,,
-D:/2025.1/Projects/Digital circuit design/Traffic_light_FSM/Traffic_light_FSM.srcs/sources_1/new/timeCounter.sv,1763891361,systemVerilog,,D:/2025.1/Projects/Digital circuit design/Traffic_light_FSM/Traffic_light_FSM.srcs/sources_1/new/trafficLights_tb.sv,,timeCounter,,uvm,../../../../../../../Vivado/data/rsb/busdef,,,,,
-D:/2025.1/Projects/Digital circuit design/Traffic_light_FSM/Traffic_light_FSM.srcs/sources_1/new/trafficLights_tb.sv,1763933828,systemVerilog,,,,trafficLights_tb,,uvm,../../../../../../../Vivado/data/rsb/busdef,,,,,
