@@ -1,2 +1,13 @@
+# Vivado generated files
+*.cache/
+*.runs/
+*.sim/
+*.hw/
+*.jou
+*.log
+*.pb
+*.str
+
+Traffic_light_FSM.cache/
 Traffic_light_FSM.sim/
 Traffic_light_FSM.xpr
